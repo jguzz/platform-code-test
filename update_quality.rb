@@ -1,4 +1,4 @@
-require 'award'
+require_relative 'award'
 
 def update_quality(awards)
   awards.each do |award|
@@ -47,3 +47,10 @@ def update_quality(awards)
     end
   end
 end
+
+# Testing
+blue = Award.new("Blue Compare", 10, 10)
+
+p blue
+update_quality([blue])
+p blue
