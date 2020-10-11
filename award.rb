@@ -31,7 +31,6 @@ class Award
 		end
 	end
 	
-	
 	# Quality update for all non-specific awards
 	# Decreses by 1 while quality > 0
 	# Decreses by 2 when expired.
