@@ -148,15 +148,11 @@ class Award
 
 	#  Quality decreses by x2 the amount of pts per day.
 	def blue_star_quality
-		self.special_quality
-		self.quality > 0 ? self.quality -= 1 : nil 
-
-		if self.expires_in < 0
-			if self.quality > 0
-				self.quality -= 1
-			end
+		if self.quality > 0  
+			self.quality -= 2  
+			self.expires_in <= 0 ? self.quality -= 2 : nil
 		end
-		
+		self.expires_in -= 1
 	end 
 end
 
