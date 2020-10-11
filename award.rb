@@ -10,20 +10,19 @@ class Award
 	end
 
 	def update_quality
+		# Specific awards update differently...
 		case self.name
 			
-		# Special awards
+		# Specific awards
 		when 'Blue First'
 			self.blue_first_quality
 			
 		when 'Blue Compare'
 			self.blue_compare_quality
 
-
 		when 'Blue Distinction Plus'
 			self.blue_distinction_plus_quality
 			
-
 		when 'Blue Star'
 			self.blue_star_quality
 			
@@ -34,7 +33,9 @@ class Award
 	end
 	
 	
-	# Affects all non-specific awards
+	# Quality update for all non-specific awards
+	# Decreses by 1 while quality > 0
+	# Decreses by 2 when expired.
 	def regular_quality
 		self.expires_in -= 1
 		if self.quality > 0 
@@ -48,16 +49,7 @@ class Award
 		end
 	end
 	
-	#Helper method for all special excluding 'Blue Distinction Plus'
-	def special_quality
-		self.expires_in -= 1
-		
-		if self.quality < 50  
-			self.quality += 1 			
-		end
-	end
-	
-	# increases in quality the closer it is to expiring
+	# Increases in quality the closer it is to expiring
 	#Quality increases by 2 when there are 10 or < days left till it expires, and 3 when there are 5 days or <
 	# Quality == 0 when experation hits.
 	def blue_compare_quality
@@ -82,7 +74,10 @@ class Award
 	
 	# Quality increases over time
 	def blue_first_quality
-		self.special_quality
+		self.expires_in -= 1
+		if self.quality < 50  
+			self.quality += 1 			
+		end
 		if self.expires_in < 0
 			if self.quality < 50
 				self.quality += 1
@@ -94,10 +89,10 @@ class Award
 	# Always 80pts
 	def blue_distinction_plus_quality
 		self.quality = 80
-		# self.expires_in < 0 ? self.quality = self.quality - self.quality : nil 
 	end
 
-	#  Quality decreses by x2 the amount of pts per day.
+	# Quality decreses by x2 the amount of pts per day.
+	# Quality decreses by x4 when expired.
 	def blue_star_quality
 		if self.quality > 0  
 			self.quality -= 2  
