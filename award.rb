@@ -1,4 +1,3 @@
-# Award object 
 class Award 
 	attr_reader :name
 	attr_accessor :expires_in, :quality
@@ -38,14 +37,9 @@ class Award
 	# Decreses by 2 when expired.
 	def regular_quality
 		self.expires_in -= 1
-		if self.quality > 0 
-			self.quality -= 1 
-		end
-
+		self.quality > 0 ? self.quality -= 1 : nil
 		if self.expires_in < 0
-			if self.quality > 0
-				self.quality -= 1
-			end
+			self.quality > 0 ? self.quality -= 1 : nil
 		end
 	end
 	
@@ -56,32 +50,22 @@ class Award
 		if self.quality < 50
 			self.quality += 1
 			if self.expires_in < 11
-				if self.quality < 50
-					self.quality += 1
-				end
+				self.quality < 50 ? self.quality += 1 : nil
 			end
 			if self.expires_in < 6
-				if self.quality < 50
-					self.quality += 1
-				end
+				self.quality < 50 ? self.quality += 1 : nil
 			end
 		end
 		self.expires_in -= 1
-		if self.expires_in < 0
-			self.quality = self.quality - self.quality
-		end
+		self.expires_in < 0 ? self.quality -= self.quality : nil
 	end
 	
 	# Quality increases over time
 	def blue_first_quality
 		self.expires_in -= 1
-		if self.quality < 50  
-			self.quality += 1 			
-		end
+		self.quality < 50 ? self.quality += 1 : nil
 		if self.expires_in < 0
-			if self.quality < 50
-				self.quality += 1
-			end
+			self.quality < 50 ? self.quality += 1 : nil
 		end
 	end
 	
