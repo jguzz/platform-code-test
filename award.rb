@@ -23,14 +23,14 @@ class Award
 			self.quality += 1
 			if self.name == 'Blue Compare'
 				if self.expires_in < 11
-				if self.quality < 50
-					self.quality += 1
-				end
+					if self.quality < 50
+						self.quality += 1
+					end
 				end
 				if self.expires_in < 6
-				if self.quality < 50
-					self.quality += 1
-				end
+					if self.quality < 50
+						self.quality += 1
+					end
 				end
 			end
 			end
@@ -60,7 +60,8 @@ class Award
 
 	def update_quality_switch
 		case self.name
-
+			
+		# Special awards
 		when 'Blue First'
 			self.blue_first_quality
 			
@@ -75,14 +76,14 @@ class Award
 		when 'Blue Star'
 			self.blue_star_quality
 			
-			# Other awards...
+		# Other awards...
 		else 
 			self.regular_quality
 		end
 	end
 	
 	
-	
+	# Affects all non-specific awards
 	def regular_quality
 		self.expires_in -= 1
 		if self.quality > 0 
@@ -109,17 +110,21 @@ class Award
 	#Quality increases by 2 when there are 10 or < days left till it expires, and 3 when there are 5 days or <
 	# Quality == 0 when experation hits.
 	def blue_compare_quality
-		self.special_quality
-		case self.expires_in
-		when 7..11
-			if self.quality < 50
-				self.quality += 1
+		if self.quality < 50
+			self.quality += 1
+			if self.expires_in < 11
+				if self.quality < 50
+					self.quality += 1
+				end
 			end
-		when 1..6
-			if self.quality < 50
-				self.quality += 1
-			end	
-		when self.expires_in < 0
+			if self.expires_in < 6
+				if self.quality < 50
+					self.quality += 1
+				end
+			end
+		end
+		self.expires_in -= 1
+		if self.expires_in < 0
 			self.quality = self.quality - self.quality
 		end
 	end
@@ -138,7 +143,7 @@ class Award
 	# Always 80pts
 	def blue_distinction_plus_quality
 		self.quality = 80
-		self.expires_in < 0 ? self.quality = self.quality - self.quality : nil 
+		# self.expires_in < 0 ? self.quality = self.quality - self.quality : nil 
 	end
 
 	#  Quality decreses by x2 the amount of pts per day.
@@ -159,7 +164,7 @@ end
 
 
 
-# blue = Award.new("Blue Star", 10, 15)
+# blue = Award.new("Blue Distinction Compare", 10, 15)
 # p blue
 # p blue.quality
 # blue.update_quality
